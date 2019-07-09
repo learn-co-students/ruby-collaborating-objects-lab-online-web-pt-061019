@@ -1,11 +1,12 @@
 class Song
-  attr_accessor :artist, :title, :name
+  attr_accessor :artist, :name, :file_name
   
   @@all = []
   
   def initialize(name)
     @name = name
     @artist = artist
+    @file_name = file_name
     @@all << self
   end
 end
@@ -19,18 +20,12 @@ end
       self.artist = Artist.new(name)
     else
       self.artist.name = name
-    end
+   end
     
-    def self.new_by_filename(filename)
-      song = self.new
-      song.name = filename.split(" - ")[1].chomp(".mp3") # formats song name correctly
-      song.artist_name = filename.split(" - ")[0] # formats artist name correctly
-      song  # returns the song instance
-    end
-  
-  # def self.create_from_filename(filename)
-  #   song = self.new
-  #   song.name = filename.split(" - ")[1].chomp(".mp3") # formats song name correctly
-  #   song.artist_name = filename.split(" - ")[0] # formats artist name correctly
-  #   @@all << song # saves new song instance
+  def self.new_by_filename(file_name)
+    song.song_name = file_name.chomp(".mp3").split(" - ")
+    song = Song.new(song[1])
+    song.artist_name = file_name.split(" - ")[0]
+    #song  
   end
+end
