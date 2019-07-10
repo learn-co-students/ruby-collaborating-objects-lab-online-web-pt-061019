@@ -1,16 +1,16 @@
+require 'pry'
+
 class Song
-  attr_accessor :artist, :name, :file_name
+  attr_accessor :artist, :name
   
   @@all = []
   
   def initialize(name)
     @name = name
     @artist = artist
-    @file_name = file_name
     @@all << self
   end
-end
-  
+
   def self.all
     @@all
   end
@@ -21,11 +21,14 @@ end
     else
       self.artist.name = name
    end
+ end
     
   def self.new_by_filename(file_name)
-    song.song_name = file_name.chomp(".mp3").split(" - ")
-    song = Song.new(song[1])
-    song.artist_name = file_name.split(" - ")[0]
-    #song  
+    song = file_name.split(" - ")[1]
+    artist = file_name.split(" - ")[0]
+    new_instance = Song.new(song)
+    new_instance.artist_name = artist
+    new_instance.artist.add_song(new_instance)
+    new_instance
   end
 end
