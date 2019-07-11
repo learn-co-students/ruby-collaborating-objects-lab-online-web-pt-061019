@@ -11,7 +11,7 @@ class Song
     # song.title = filename.split(" - ")[1]
     # song.name = songname
     artistname = filename.split(" - ")[0]
-
+    #
     if (song.artist.nil?)
       new_artist = Artist.new(artistname)
       song.artist = new_artist
@@ -21,6 +21,14 @@ class Song
       song.artist.name = artistname
     end
     @@all << song
+
+    # if (self.artist.nil?)
+    #   self.artist = Artist.new(artistname)
+    # else
+    #   self.artist.name = artistname
+    # end
+
+
     song
   end
 
