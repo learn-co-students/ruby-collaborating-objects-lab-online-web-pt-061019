@@ -1,22 +1,21 @@
 class Song
 
-  attr_accessor :name
-  attr_reader :artist
+  attr_accessor :name, :artist
+  # attr_reader :artist
   def initialize(name)
     @name = name
   end
 
-  def artist=(artist_name)
-    artist = Artist.find_or_create_by_name(artist_name)
+  def artist_name=(artist_name)
+    self.artist = Artist.find_or_create_by_name(artist_name)
     artist.add_song(self)
   end
 
   def self.new_by_filename(filename)
-    data = filename.split(" - ")
-    artist = data[0]
-    title = data[1]
-    song = Song.new(title)
-    song.artist=(artist)
+    artist, title = filename.split(" - ")
+    song = self.new(title)
+    song.artist_name = artist
+    song
   end
 
 end
