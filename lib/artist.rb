@@ -27,7 +27,8 @@ class Artist
   end
   
   def save
-    @@all << @artist
+    #@@all << @artist
+    self.class.all << self
   end
   
   def self.find_or_create_by_name(name)
@@ -51,6 +52,7 @@ class Artist
   end
   
   def print_songs
-   @songs.collect {|song| puts song.name}
+   #@songs.collect {|song| puts song.name}
+   self.songs.collect {|song| puts song.name}
   end
 end
