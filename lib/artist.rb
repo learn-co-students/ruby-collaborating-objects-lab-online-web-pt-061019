@@ -16,7 +16,8 @@ class Artist
   end
 
   def save
-    @@all << self
+    # @@all << self
+    self.class.all << self
   end
 
   def self.all
@@ -29,11 +30,14 @@ class Artist
     #Creates new instance of Artist if none exist
     # .find = .detect
     # @@all = self.all
-    if !@@all.detect { |n| n.name = name}
-      artist = Artist.new(name)
-    else
-      @@all.detect { |n| n.name = name}
-    end
+    # if !@@all.detect { |n| n.name = name}
+    #   artist = Artist.new(name)
+    # else
+    #   @@all.detect { |n| n.name = name}
+    # end
+    # artist = self.all.find {|n| n.name = name} ? artist : self.new(name)
+
+    self.all.find {|n| n.name = name} || self.new(name)
   end
 
   def print_songs
