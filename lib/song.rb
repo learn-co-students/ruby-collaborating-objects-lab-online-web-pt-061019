@@ -1,27 +1,26 @@
+require "pry"
+
 class Song
 
-  attr_accessor :name, :artist
-  # attr_reader :artist
+  attr_accessor :artist, :name
+  # attr_reader
+
   def initialize(name)
     @name = name
   end
 
-  def artist_name=(artist_name)
-    # self.artist = Artist.find_or_create_by_name(artist_name)
-    # artist.add_song(self)
-    @artist = artist_name
-  end
-
   def self.new_by_filename(filename)
+    # song_name = filename.split(" - ")[1]
+    # song = Song.new(song_name)
+    # artist_object = Artist.find_or_create_by_name(filename.split(" - ")[0])
+    # song.artist = artist_object
+    # song.artist.add_song(self)
+    #
     artist, title = filename.split(" - ")
-    # song = self.new(title)
-    # song.artist_name = artist
-    # song
-    # using .tap
+    binding.pry
     self.new(title).tap {|song|
-      song.artist_name = Artist.find_or_create_by_name(artist)
-      song.artist.songs << song unless
-      song.artist.songs.include?(song)
+      song.artist = Artist.find_or_create_by_name(artist)
+      song.artist.add_song(song)
     }
   end
 
