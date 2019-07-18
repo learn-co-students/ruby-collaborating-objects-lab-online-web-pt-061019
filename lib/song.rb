@@ -23,12 +23,18 @@ class Song
    end
  end
     
-  def self.new_by_filename(file_name)
+   def self.new_by_filename(file_name)
     song = file_name.split(" - ")[1]
     artist = file_name.split(" - ")[0]
     new_instance = Song.new(song)
     new_instance.artist_name = artist
     new_instance.artist.add_song(new_instance)
     new_instance
-  end
+  
+      # artist, title = file_name.split(" - ")
+      # self.new(title).tap {|song|
+      # song.artist = Artist.find_or_create_by_name(artist)
+      # song.artist.add_song(song)
+      # }
+   end
 end
