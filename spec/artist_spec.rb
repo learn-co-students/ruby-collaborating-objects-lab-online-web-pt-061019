@@ -1,9 +1,10 @@
+
 describe 'Artist' do
 
   before(:example) {
     Artist.class_variable_set(:@@all, [])
   }
-  
+
 
   describe '#initialize with #name' do
     it 'accepts a name for the artist' do
@@ -35,8 +36,8 @@ describe 'Artist' do
       dirty_diana = Song.new("Dirty Diana")
       billie_jean = Song.new("Billie Jean")
       piano_man = Song.new("Piano Man")
-      dirty_diana.artist = artist
-      billie_jean.artist = artist
+      dirty_diana.artist_name = artist.name
+      billie_jean.artist_name = artist.name
       expect(artist.songs).to eq([dirty_diana, billie_jean])
     end
   end
@@ -53,7 +54,7 @@ describe 'Artist' do
     end
   end
 
-  
+
 
   describe '.find_or_create_by_name' do
     it 'always returns an Artist instance' do
