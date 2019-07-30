@@ -1,3 +1,4 @@
+
 class Artist
   attr_accessor :name, :songs
 
@@ -11,6 +12,12 @@ class Artist
   def self.all
     @@all
   end
+
+  def songs(song)
+    Song.all.uniq.sort_by do |song|
+      song.name
+  end
+end
 
   def self.find_or_create_by_name(name)
     self.find_by_name(name) || self.create_by_name(name)
@@ -39,4 +46,6 @@ end
   def print_songs
     @songs.each {|sng| puts sng.name }
   end
+
+
 end
