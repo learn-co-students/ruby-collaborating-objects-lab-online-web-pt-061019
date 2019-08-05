@@ -1,89 +1,55 @@
-describe 'Artist' do
+require "spec_helper"
 
-  before(:example) {
-    Artist.class_variable_set(:@@all, [])
-  }
-  
+describe "Artist" do
 
-  describe '#initialize with #name' do
-    it 'accepts a name for the artist' do
-      artist = Artist.new('Michael Jackson')
-      expect(artist.name).to eq('Michael Jackson')
-    end
-  end
+  let!(:adele) { Artist.new("Adele") } 
 
-  describe '#name=' do
-    it 'sets the artist name' do
-      artist = Artist.new('Michael Jackson')
-      artist.name = 'King of Pop'
-      expect(artist.name).to eq('King of Pop')
-    end
-  end
+    describe "#new" do 
+      it "is initialized with a name" do 
+        expect{Artist.new("Beyonce")}.to_not raise_error
+      end
 
-  describe '.all' do
-    it 'returns all existing Artist instances' do
-      artist = Artist.new('Michael Jackson')
-      expect(Artist.all).to eq([artist])
-      prince = Artist.new('Prince')
-      expect(Artist.all).to eq([artist, prince])
-    end
-  end
-
-  describe `#songs` do
-    it 'lists all songs that belong to this artist' do
-      artist = Artist.new('Michael Jackson')
-      dirty_diana = Song.new("Dirty Diana")
-      billie_jean = Song.new("Billie Jean")
-      piano_man = Song.new("Piano Man")
-      dirty_diana.artist = artist
-      billie_jean.artist = artist
-      expect(artist.songs).to eq([dirty_diana, billie_jean])
-    end
-  end
-
-  describe '#add_song' do
-    it 'keeps track of an artist\'s songs' do
-      artist = Artist.new('Michael Jackson')
-      song_one = Song.new("Rock With You")
-      song_two = Song.new("Smooth Criminal")
-      smells_like_teen_spirit = Song.new("Smells Like Teen Spirit")
-      artist.add_song(song_one)
-      artist.add_song(song_two)
-      expect(artist.songs).to eq([song_one, song_two])
-    end
-  end
-
-  
-
-  describe '.find_or_create_by_name' do
-    it 'always returns an Artist instance' do
-      artist_1 = Artist.find_or_create_by_name("Michael Jackson")
-      artist_2 = Artist.find_or_create_by_name("Michael Jackson")
-      expect(artist_1).to be_an(Artist)
-      expect(artist_2).to be_an(Artist)
+      it "is initialized with an empty collection of songs" do 
+        expect(adele.instance_variable_get(:@songs)).to match([])
+      end
     end
 
-    it 'finds or creates an artist by name maintaining uniqueness of objects by name property' do
-      artist_1 = Artist.find_or_create_by_name("Michael Jackson")
-      artist_2 = Artist.find_or_create_by_name("Michael Jackson")
-      expect(artist_1).to eq(artist_2)
+    describe "#name" do
+      it "has an attr_accessor for name" do 
+        expect(adele.name).to eq("Adele")
     end
 
-    it 'Creates new instance of Artist if none exist' do
-      artist_1 = Artist.find_or_create_by_name("Drake")
-      expect(artist_1.class).to eq(Artist)
+    describe "#songs" do 
+      it "has many songs" do
+        expect(adele.songs).to be_a(Array)
+      end
     end
-  end
 
-  describe '#print_songs' do
-    it 'lists all of the artist\'s songs' do
-      artist = Artist.new('Michael Jackson')
-      dirty_diana = Song.new("Dirty Diana")
-      billie_jean = Song.new("Billie Jean")
-      piano_man = Song.new("Piano Man")
-      artist.add_song(dirty_diana)
-      artist.add_song(billie_jean)
-      expect{artist.print_songs}.to output("Dirty Diana\nBillie Jean\n").to_stdout
+    describe "#add_song" do 
+      it "takes in an argument of a song and adds that song to the artist's collection and tells the song that it belongs to that artist" do 
+        hello = Song.new("Hello")
+        adele.add_song(hello)
+        expect(adele.songs).to include(hello)
+        expect(hello.artist).to eq(adele)
+      end
+    end
+
+    describe "#add_song_by_name" do 
+      it "takes in an argument of a song name, creates a new song with it and associates the song and artist" do 
+        adele.add_song_by_name("Rolling in the Deep")
+        expect(adele.songs.last.name).to eq("Rolling in the Deep")
+        expect(adele.songs.last.artist).to eq(adele)
+      end
+    end
+
+    describe ".song_count" do 
+      it "is a class method that returns the total number of songs associated to all existing artists" do 
+        expect(Artist.song_count).to eq(2)
+      end
+
+      it "uses the class variable, @@song_count" do 
+        expect(Artist.class_variable_get(:@@song_count)).to be_a(Integer)
+      end
     end
   end
 end
